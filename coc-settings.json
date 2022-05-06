@@ -1,0 +1,4 @@
+{
+  "eslint.filetypes": ["javascript", "vue"],
+  "tsserver.enable": false
+}
