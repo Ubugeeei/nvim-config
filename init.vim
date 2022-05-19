@@ -9,40 +9,42 @@ syntax enable
 
 " PLUGIN SETTINGS
 call plug#begin('~/.config/nvim/plugged')
-Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-commentary'
+" lsp
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/nerdtree'
-Plug 'ryanoasis/vim-devicons'
-Plug 'yuki-yano/fzf-preview.vim'
-Plug 'Yggdroot/indentLine'
-Plug 'Shougo/vimproc.vim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'vim-jp/vimdoc-ja'
-Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/gina.vim'
-Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'sainnhe/gruvbox-material'
-Plug 'codehearts/mascara-vim'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'onsails/lspkind.nvim'
-" comp
+Plug 'yaegassy/coc-volar', {'do': 'yarn install --frozen-lockfile'}
+Plug 'yaegassy/coc-volar-tools', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neovim/nvim-lspconfig'
+Plug 'justmao945/vim-clang'
+" comp
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
-
+" format
 Plug 'rhysd/vim-clang-format'
-
-Plug 'yaegassy/coc-volar', {'do': 'yarn install --frozen-lockfile'}
-Plug 'yaegassy/coc-volar-tools', {'do': 'yarn install --frozen-lockfile'}
+" finder
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'yuki-yano/fzf-preview.vim'
+Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
+Plug 'lambdalisue/fern.vim'
+" theme
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'preservim/nerdtree'
+Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'vim-jp/vimdoc-ja'
+Plug 'vim-airline/vim-airline'
+"" others
+Plug 'tpope/vim-commentary'
+Plug 'ryanoasis/vim-devicons'
+Plug 'Shougo/vimproc.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'lambdalisue/gina.vim'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'sainnhe/gruvbox-material'
+Plug 'codehearts/mascara-vim'
+Plug 'onsails/lspkind.nvim'
 call plug#end()
 
 " color thheme
@@ -55,6 +57,7 @@ nmap <C-p> <Plug>AirlineSelectPrevTab
 nmap <C-n> <Plug>AirlineSelectNextTab
 hi Directory guifg=#FF0000 ctermfg=grey
 hi File guifg=#FF0000 ctermfg=grey
+let NERDTreeShowHidden = 1
 
 " Esc SETTINGS
 inoremap jj <Esc>
@@ -129,6 +132,47 @@ let g:ale_fixers = {
 command! -nargs=0 Format :call CocAction('format')
 nnoremap <leader>fo <cmd>Format<cr>
 
+"=========
+"vim-clang
+"=========
+" 'Shougo/neocomplete.vim' {{{
+let g:neocomplete#enable_at_startup = 1
+if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_overwrite_completefunc = 1
+let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+"""}}}
+
+" 'justmao945/vim-clang' {{{
+
+" disable auto completion for vim-clanG
+let g:clang_auto = 0
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+let g:clang_use_library = 1
+
+" default 'longest' can not work with neocomplete
+let g:clang_c_completeopt   = 'menuone'
+let g:clang_cpp_completeopt = 'menuone'
+
+let g:clang_exec = 'clang'
+let g:clang_format_exec = 'clang-format'
+
+let g:clang_c_options = '-std=c11'
+let g:clang_cpp_options = '
+  \ -std=c++1z 
+  \ -stdlib=libc++ 
+  \ -pedantic-errors
+  \ '
+
+" }}}
+
+
+"" =======================
+"" lua
+"" =======================
 "" treesitter
 lua <<EOF
 require('nvim-treesitter.configs').setup {
