@@ -4,6 +4,8 @@ set guifont=Dank\ Mono
 set guifontwide=Dank\ Mono
 set confirm
 set encoding=utf8
+set tags=./tags;
+let g:auto_ctags = 1
 
 syntax enable
 
@@ -15,14 +17,17 @@ Plug 'yaegassy/coc-volar', {'do': 'yarn install --frozen-lockfile'}
 Plug 'yaegassy/coc-volar-tools', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neovim/nvim-lspconfig'
 Plug 'justmao945/vim-clang'
+Plug 'rust-lang/rust.vim'
 " comp
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'mattn/emmet-vim'
 " format
 Plug 'rhysd/vim-clang-format'
+Plug 'jiangmiao/auto-pairs'
 " finder
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'yuki-yano/fzf-preview.vim'
@@ -45,13 +50,15 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'sainnhe/gruvbox-material'
 Plug 'codehearts/mascara-vim'
 Plug 'onsails/lspkind.nvim'
+Plug 'jparise/vim-graphql'
+Plug 'EdenEast/nightfox.nvim'
 call plug#end()
 
 " color thheme
-colorscheme tokyonight
+" colorscheme tokyonight
+colorscheme nightfox
 
 " NERDTree SETTINGS
-nmap <C-f> :NERDTreeToggle<CR>
 let g:airline#extensions#tabline#enabled = 1
 nmap <C-p> <Plug>AirlineSelectPrevTab
 nmap <C-n> <Plug>AirlineSelectNextTab
@@ -90,6 +97,9 @@ let g:fern#renderer = 'Hack\ Nerd\ Font'
 
 "" C lang format
 autocmd FileType c ClangFormatAutoEnable
+
+"" Rust format
+let g:rustfmt_autosave = 1
 
 "" coc.nvim
 let g:coc_global_extensions = ['coc-tsserver', 'coc-eslint8', 'coc-prettier', 'coc-git', 'coc-fzf-preview', 'coc-lists', 'coc-clangd']
@@ -130,7 +140,7 @@ let g:ale_fixers = {
  let g:ale_fix_on_save = 1
 
 command! -nargs=0 Format :call CocAction('format')
-nnoremap <leader>fo <cmd>Format<cr>
+nnoremap <leader>ss <cmd>Format<cr>
 
 "=========
 "vim-clang
@@ -221,38 +231,6 @@ require('nvim-treesitter.configs').setup {
   require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
     capabilities = capabilities
   }
-
- require('lspkind').init({
-    mode = 'symbol_text',
-    preset = 'codicons',
-    symbol_map = {
-      Text = "",
-      Method = "",
-      Function = "",
-      Constructor = "",
-      Field = "ﰠ",
-      Variable = "",
-      Class = "ﴯ",
-      Interface = "",
-      Module = "",
-      Property = "ﰠ",
-      Unit = "塞",
-      Value = "",
-      Enum = "",
-      Keyword = "",
-      Snippet = "",
-      Color = "",
-      File = "",
-      Reference = "",
-      Folder = "",
-      EnumMember = "",
-      Constant = "",
-      Struct = "פּ",
-      Event = "",
-      Operator = "",
-      TypeParameter = ""
-    },
-})
 
 local lspkind = require('lspkind')
 cmp.setup {
